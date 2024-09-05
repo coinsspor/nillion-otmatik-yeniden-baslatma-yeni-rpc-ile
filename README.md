@@ -149,6 +149,48 @@ chmod +x nillion_start_node.sh
 ```
 
 
+**Yukardaki scrpti screecn içinde çalıştırmayı unutmayın**
 
 
 
+logları görmek içinse aşağıdaki scrpti kullanacağız screen e gerek yok 
+
+1- nano ile log görme scrptini olsuturun ve kaydedin
+```
+nano view_docker_logs.sh
+```
+
+```
+#!/bin/bash
+
+# Logları görmek istediğiniz konteynerin adı veya ID'sini belirleyin
+CONTAINER_NAME="nillion/retailtoken-accuser:v1.0.0"
+
+# Konteynerin ID'sini veya ismini al
+CONTAINER_ID=$(docker ps --filter "ancestor=$CONTAINER_NAME" --format "{{.ID}}")
+
+# Eğer konteyner çalışmıyorsa uyarı ver
+if [ -z "$CONTAINER_ID" ]; then
+    echo "Hata: Konteyner bulunamadı veya çalışmıyor. Lütfen doğru konteyner adını kontrol edin."
+    exit 1
+fi
+
+# Logların son 200 satırını takip et ve ekrana yazdır
+echo "Son 200 satır log görüntüleniyor... (CTRL+C ile çıkabilirsiniz)"
+docker logs --tail 200 -f $CONTAINER_ID
+
+```
+2-Scriti çalıştırılabilir yapın 
+
+```
+chmod +x nillion_start_node.sh
+
+```
+
+3-Scrpti  çalıştırın
+
+```
+
+./view_docker_logs.sh
+
+```
