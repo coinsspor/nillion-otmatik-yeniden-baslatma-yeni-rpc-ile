@@ -149,7 +149,7 @@ chmod +x nillion_start_node.sh
 ```
 
 
-**Yukardaki scrpti screecn içinde çalıştırmayı unutmayın**
+**Yukardaki scrpti screen içinde çalıştırmayı unutmayın**
 
 
 
