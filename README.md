@@ -1,4 +1,4 @@
-# nillion-otmatik-yeniden-baslatma-yeni-rpc-ile
+# nillion-otamatik-yeniden-baslatma-yeni-rpc-ile
 
 1 -scripti nano ile açılan sayfaya yapıstırp kaydedin 
 
