@@ -183,7 +183,7 @@ docker logs --tail 200 -f $CONTAINER_ID
 2-Scriti çalıştırılabilir yapın 
 
 ```
-chmod +x nillion_start_node.sh
+chmod +x view_docker_logs.sh
 
 ```
 
