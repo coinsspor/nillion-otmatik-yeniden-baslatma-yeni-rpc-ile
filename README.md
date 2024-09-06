@@ -92,7 +92,7 @@ check_and_start_docker() {
         echo "Docker konteyneri çalışmıyor, başlatılıyor..."
         RPC_ENDPOINT=$(select_random_rpc)
         BLOCK_START=$(get_latest_block_height)
-        docker run -d --name $CONTAINER_NAME -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "http://$RPC_ENDPOINT" --block-start $BLOCK_START > $DOCKER_LOG_FILE 2>&1
+        docker run -d --name $CONTAINER_NAME -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "http://$RPC_ENDPOINT" --block-start $BLOCK_START > $DOCKER_LOG_FILE 2>&1
 
         # Docker komutunun çıkış durumunu kontrol et
         DOCKER_EXIT_CODE=$?
@@ -164,7 +164,7 @@ nano view_docker_logs.sh
 #!/bin/bash
 
 # Logları görmek istediğiniz konteynerin adı veya ID'sini belirleyin
-CONTAINER_NAME="nillion/retailtoken-accuser:v1.0.0"
+CONTAINER_NAME="nillion/retailtoken-accuser:v1.0.1"
 
 # Konteynerin ID'sini veya ismini al
 CONTAINER_ID=$(docker ps --filter "ancestor=$CONTAINER_NAME" --format "{{.ID}}")
