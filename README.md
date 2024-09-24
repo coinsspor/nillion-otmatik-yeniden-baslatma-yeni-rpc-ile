@@ -1,13 +1,3 @@
-# nillion-otamatik-yeniden-baslatma-yeni-rpc-ile
-
-1 -scripti nano ile açılan sayfaya yapıstırp kaydedin 
-
-```
-nano nillion_start_node.sh
-```
-
-
-```
 #!/bin/bash
 
 # Log dosyasını oluştur
@@ -18,44 +8,54 @@ touch $LOG_FILE
 
 # RPC endpoint listesi
 RPC_ENDPOINTS=(
-    "37.27.69.161:22657"
-    "65.21.205.217:23657"
-    "65.109.228.73:26657"
-    "65.109.30.106:28657"
-    "95.216.246.20:19657"
-    "65.21.239.41:39657"
-    "168.119.9.219:46657"
-    "37.27.69.160:59657"
-    "65.109.61.219:18057"
-    "65.21.230.12:11657"
-    "159.69.61.113:26657"
-    "78.46.61.108:11657"
-    "188.40.85.207:13557"
-    "116.202.82.233:44657"
-    "167.235.115.23:28157"
-    "5.9.148.136:60657"
-    "78.46.76.145:32657"
-    "88.198.7.204:54657"
-    "88.99.137.42:53657"
-    "157.90.33.254:44657"
-    "195.201.12.22:32657"
-    "136.243.9.249:44657"
+    "65.108.125.39:55657"
+    "65.109.124.86:49657"
+    "65.108.105.8:22657"
+    "65.109.70.228:40657"
+    "65.108.79.38:49657"
     "116.202.217.20:36657"
-    "213.199.55.13:26657"
-    "88.99.208.54:31657"
-    "65.109.60.108:19657"
-    "95.217.37.139:31657"
-    "176.9.103.91:47657"
-    "62.112.10.13:25000"
-    "116.202.174.53:12657"
-    "65.109.32.239:10657"
+    "65.109.19.204:35657"
+    "95.216.246.20:19657"
+    "65.21.205.217:23657"
     "65.21.202.101:15657"
-    "37.27.114.99:29657"
-    "49.12.171.172:43657"
+    "162.55.98.31:27657"
+    "62.112.10.13:25000"
+    "136.243.9.249:44657"
+    "176.9.120.197:25657"
+    "195.201.12.22:32657"
+    "78.46.61.108:11657"
+    "65.108.124.102:51657"
+    "144.76.73.118:16657"
+    "213.199.55.13:26657"
+    "116.202.82.233:44657"
+    "78.46.76.145:32657"
+    "65.109.32.239:10657"
+    "37.27.69.161:22657"
+    "65.109.21.150:45657"
+    "159.69.61.113:26657"
+    "116.202.174.53:12657"
+    "167.235.115.23:28157"
+    "88.198.7.204:54657"
+    "65.109.228.73:26657"
+    "65.109.60.108:19657"
+    "65.21.239.41:39657"
+    "65.108.131.160:21657"
+    "65.109.115.62:10657"
+    "5.9.148.136:60657"
+    "65.109.75.155:24757"
+    "157.90.33.254:44657"
+    "95.217.37.139:31657"
+    "65.109.80.168:18657"
     "193.87.163.57:26657"
-    "65.108.70.78:41657"
+    "129.213.47.133:26657"
+    "37.27.69.160:59657"
+    "37.27.114.99:29657"
+    "51.89.195.146:26657"
+    "65.109.30.106:28657"
+    "65.21.230.12:11657"
     "109.199.121.58:26657"
 )
+
 
 # Rastgele bir RPC adresi seçme fonksiyonu
 select_random_rpc() {
@@ -92,7 +92,7 @@ check_and_start_docker() {
         echo "Docker konteyneri çalışmıyor, başlatılıyor..."
         RPC_ENDPOINT=$(select_random_rpc)
         BLOCK_START=$(get_latest_block_height)
-        docker run -d --name $CONTAINER_NAME -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "http://$RPC_ENDPOINT" --block-start $BLOCK_START > $DOCKER_LOG_FILE 2>&1
+        docker run -d --name $CONTAINER_NAME -v ./nillion/accuser:/var/tmp nillion/verifier:v1.0.0 verify --rpc-endpoint "http://$RPC_ENDPOINT" --block-start $BLOCK_START > $DOCKER_LOG_FILE 2>&1
 
         # Docker komutunun çıkış durumunu kontrol et
         DOCKER_EXIT_CODE=$?
@@ -130,67 +130,3 @@ while true; do
     fi
     sleep 10  # Her 10 saniyede bir kontrol
 done
-
-
-```
-2-Scriti çalıştırılabilir yapın 
-
-```
-chmod +x nillion_start_node.sh
-
-```
-
-3-Scrpti  çalıştırın
-
-```
-
-./nillion_start_node.sh
-
-```
-
-
-**Yukardaki scrpti screen içinde çalıştırmayı unutmayın**
-
-
-
-logları görmek içinse aşağıdaki scrpti kullanacağız screen e gerek yok 
-
-1- nano ile log görme scrptini olsuturun ve kaydedin
-```
-nano view_docker_logs.sh
-```
-
-```
-#!/bin/bash
-
-# Logları görmek istediğiniz konteynerin adı veya ID'sini belirleyin
-CONTAINER_NAME="nillion/retailtoken-accuser:v1.0.1"
-
-# Konteynerin ID'sini veya ismini al
-CONTAINER_ID=$(docker ps --filter "ancestor=$CONTAINER_NAME" --format "{{.ID}}")
-
-# Eğer konteyner çalışmıyorsa uyarı ver
-if [ -z "$CONTAINER_ID" ]; then
-    echo "Hata: Konteyner bulunamadı veya çalışmıyor. Lütfen doğru konteyner adını kontrol edin."
-    exit 1
-fi
-
-# Logların son 200 satırını takip et ve ekrana yazdır
-echo "Son 200 satır log görüntüleniyor... (CTRL+C ile çıkabilirsiniz)"
-docker logs --tail 200 -f $CONTAINER_ID
-
-```
-2-Scriti çalıştırılabilir yapın 
-
-```
-chmod +x view_docker_logs.sh
-
-```
-
-3-Scrpti  çalıştırın
-
-```
-
-./view_docker_logs.sh
-
-```
